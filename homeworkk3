@@ -1,0 +1,177 @@
+using System;
+
+class Employee
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public double Salary { get; set; }
+    public string Department { get; set; }
+
+    public Employee(int id, string name, double salary, string department)
+    {
+        Id = id;
+        Name = name;
+        Salary = salary;
+        Department = department;
+    }
+
+    public virtual double CalculateBonus()
+    {
+        return 0;
+    }
+}
+
+class Manager : Employee
+{
+    public int TeamSize { get; set; }
+
+    public Manager(int id, string name, double salary, string department, int teamSize)
+        : base(id, name, salary, department)
+    {
+        TeamSize = teamSize;
+    }
+
+    public override double CalculateBonus()
+    {
+        return Salary * 0.2;
+    }
+}
+
+class Developer : Employee
+{
+    public string About { get; set; }
+
+    public Developer(int id, string name, double salary, string department, string about)
+        : base(id, name, salary, department)
+    {
+        About = about;
+    }
+
+    public override double CalculateBonus()
+    {
+        return Salary * 0.1;
+    }
+}
+
+class BankAccount
+{
+    public string AccountHolder { get; set; }
+    public double Balance { get; set; }
+
+    public BankAccount(string accountHolder, double balance)
+    {
+        AccountHolder = accountHolder;
+        Balance = balance;
+    }
+
+    public virtual void CalculateInterest()
+    {
+    }
+}
+
+class SavingsAccount : BankAccount
+{
+    public SavingsAccount(string accountHolder, double balance)
+        : base(accountHolder, balance)
+    {
+    }
+
+    public override void CalculateInterest()
+    {
+        double interest = Balance * 0.05;
+        Console.WriteLine($"Interest earned: {interest}");
+    }
+}
+
+class CheckingAccount : BankAccount
+{
+    public CheckingAccount(string accountHolder, double balance)
+        : base(accountHolder, balance)
+    {
+    }
+
+    public override void CalculateInterest()
+    {
+        Console.WriteLine("Checking accounts do not earn interest.");
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        Manager manager = new Manager(1, "SILA DÜZGÜN", 10000, "SOFTWARE", 5);
+        Developer developer = new Developer(2, "SUDE NAZ AKTAŞ", 8000, "SOFTWARE", "FULL STACK DEVELOPER");
+
+        Console.WriteLine($"Manager {manager.Name} bonus: {manager.CalculateBonus()}");
+        Console.WriteLine($"Developer {developer.Name} bonus: {developer.CalculateBonus()}");
+
+        SavingsAccount savings = new SavingsAccount("Sıla Düzgün", 20000);
+        CheckingAccount checking = new CheckingAccount("Sude Naz Aktaş", 15000);
+
+        Console.Write("Savings Account Interest: ");
+        savings.CalculateInterest();
+
+        Console.Write("Checking Account Interest: ");
+        checking.CalculateInterest();
+    }
+}
+   
+Abstract Class ve Interface Nedir?
+
+Abstract Class (Soyut Sınıf):
+
+Tamamlanmamış, eksik bir sınıftır.
+Abstract metodlar içerebilir (sadece imzaları olan, türetilen sınıfların doldurması gereken metodlar).
+Kısmi bir uygulama içerebilir, yani hem tamamlanmış hem de tamamlanmamış metodlar bulunabilir.
+Kalıtım (inheritance) yoluyla başka sınıflar tarafından genişletilir.
+Interface (Arayüz):
+
+İçerisinde sadece metod imzaları ve özellik tanımları bulunur.
+Hiçbir metodun içeriği olamaz (C# 8.0 ile default metodlar eklenebilir).
+Çoklu kalıtımı desteklemek için kullanılır.
+Sınıflara belirli bir sözleşmeyi (contract) uygulamak için kullanılır.
+Abstract Class ile Interface Arasındaki Farklar:
+
+Abstract Class	                                                                        Interface
+Hem tamamlanmış hem tamamlanmamış metodlar içerebilir.	                                Sadece metod imzalarını barındırır (C# 8.0 sonrası default metodlara izin verir).
+Sadece bir sınıf tarafından kalıtılabilir (Single Inheritance).	                        Bir sınıf birden fazla interface’i implemente edebilir.
+İçerisinde field (alan) tanımlanabilir.	                                                Field tanımlanamaz, sadece property olabilir.
+Yapıcı metotları (constructor) olabilir.	                                              Yapıcı metotları olamaz.
+Bir sınıf gibi davranır, fakat nesne oluşturulamaz.	                                    Bir şablon olarak görev yapar.
+Kendi içinde erişim belirleyicileri (public, private, protected) kullanılabilir.       	Metodlar varsayılan olarak public’tir.
+
+
+Abstract class örneği:
+
+abstract class Shape
+{
+    public abstract double CalculateArea();
+}
+
+class Circle : Shape
+{
+    public double Radius { get; set; }
+
+    public override double CalculateArea()
+    {
+        return Math.PI * Radius * Radius;
+    }
+}
+
+Interface örneği:
+
+interface IAnimal
+{
+    void MakeSound();
+}
+
+class Dog : IAnimal
+{
+    public void MakeSound()
+    {
+        Console.WriteLine("Bark! Bark!");
+    }
+}
+
+
